@@ -4,15 +4,15 @@ module.exports = {
   register (req, res, next) {
     const schema = {
       username: Joi.string().regex(
-        new RegExp('^[a-zA-Z1-9]{5,20}$')
+        /^[a-zA-Z1-9]{5,20}$/
       ),
       email: Joi.string(),
       password: Joi.string().regex(
-        new RegExp('^[a-zA-Z0-9]{8,32}$')
+        /^[a-zA-Z0-9]{8,32}$/
       )
     }
 
-    const {error, value} = Joi.validate(req.body, schema)
+    const { error } = Joi.validate(req.body, schema)
 
     if (error) {
       switch (error.details[0].context.key) {
@@ -36,8 +36,7 @@ module.exports = {
             error: 'invalid registration information'
           })
       }
-    }
-    else {
+    } else {
       next()
     }
   }

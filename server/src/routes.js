@@ -1,5 +1,5 @@
 const AuthenticationController = require('./controllers/AuthenticationController.js')
-const AuthenticationControllerPolicy = require('./controllers/AuthenticationControllerPolicy.js')
+const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy.js')
 
 module.exports = (app) => {
   app.post('/register', AuthenticationControllerPolicy.register,
