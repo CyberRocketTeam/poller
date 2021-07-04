@@ -1,43 +1,48 @@
 const Joi = require('joi')
+const { User } = require('../models')
 
 module.exports = {
   register (req, res, next) {
-    const schema = {
+    const schema = Joi.object({
       username: Joi.string().regex(
         /^[a-zA-Z1-9]{5,20}$/
-      ),
-      email: Joi.string(),
+      ).required(),
+      email: Joi.string().required().email(),
       password: Joi.string().regex(
         /^[a-zA-Z0-9]{8,32}$/
-      )
-    }
+      ).required()
+    })
 
-    const { error } = Joi.validate(req.body, schema)
+    const { error } = schema.validate(req.body)
 
     if (error) {
-      switch (error.details[0].context.key) {
-        case 'username':
-          res.status(400).send({
-            error: 'invalid email address'
-          })
-          break
-        case 'password':
-          res.status(400).send({
-            error: 'invalid email address'
-          })
-          break
-        case 'email':
-          res.status(400).send({
-            error: 'invalid email address'
-          })
-          break
-        default:
-          res.status(400).send({
-            error: 'invalid registration information'
-          })
+      const details = []
+      for (const detail of error.details) {
+        details.push({
+          message: detail.message,
+          key: detail.context.key
+        })
       }
-    } else {
-      next()
+      return res.status(400).send({
+        error: details
+      })
     }
+    next()
+  },
+  async verify (req, res, next) {
+    const user = await User.findOne({
+      where: {
+        USERNAME: req.body.user.username
+      }
+    })
+
+    if (!user) {
+      res.status(500).send({
+        error: 'sorry, an error occurred'
+      })
+      return
+    }
+
+    next()
   }
 }
