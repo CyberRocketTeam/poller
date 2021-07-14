@@ -24,3 +24,8 @@ mongoose.connect(config.db.connection_uri, { useNewUrlParser: true, useUnifiedTo
   .then(() => app.listen(config.port, () => console.log(`Server running on port ${config.port}...\nSuccessfully connected to DB`)))
   .catch(err => console.log(err.message));
 mongoose.set('useFindAndModify', false);
+
+// check route function
+app.get('/', (req, res) => {
+  res.send('Welcome to poller');
+});
