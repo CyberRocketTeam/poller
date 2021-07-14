@@ -2,12 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "app.js",
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js src/app --exec 'npm run lint && node'",
-    "lint": "./node_modules/.bin/eslint --ext .js --fix src/",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "init_test": "node tests/init.js"
+    "start": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -19,8 +16,9 @@
     "express": "^4.17.1",
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.2",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.9",
+    "nodemon": "^2.0.12",
     "sequelize": "^6.6.4",
     "sqlite3": "^5.0.2"
   },
