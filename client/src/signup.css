@@ -1,0 +1,61 @@
+.form{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    padding-top: 50px;
+}
+
+.signup-form{
+    display: grid;
+    place-items: center;
+    border: solid var(--color-secondary-2);
+    height: 80vh;
+    width: 100%;
+    padding: 30px;
+    grid-gap: 10px;
+}
+.signup-form input{
+    width: 100%;
+    min-height: 70px;
+}
+.password, .name{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    grid-gap: 10px;
+}
+@media screen and (min-width:700px) {
+    .signup-form{
+        display: grid;
+        place-items: center;
+
+        height: 80vh;
+        width: 70%;
+        padding: 40px;
+        grid-gap: 10px;
+    }
+}
+
+@media screen and (min-width:900px) {
+    .signup-form{
+        display: grid;
+        place-items: center;
+ 
+    width: 50%;
+    height: 70vh;
+
+        
+    }
+    .password, .name{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        grid-gap: 20px;
+    }
+    .form{
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        padding-top: 100px;
+    }
+}

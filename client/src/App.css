@@ -1,0 +1,44 @@
+* {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  border: none;
+  box-sizing: border-box;
+}
+::-webkit-scrollbar{
+  display: none;
+}
+:root {
+  --color-primary: rgb(255, 255, 255);
+  --color-secondary: rgba(255, 255, 255, 0.459);
+  --color-secondary-2: rgba(255, 255, 255, 0.048);
+  --color-purple: purple;
+  --color-pink: hsl(350, 79%, 59%);
+  --color-yellow: yellow;
+
+  --bg-color: rgb(31, 31, 31);
+  --b-radius: 0;
+
+  --h-fontSize: 3.5rem;
+  --d-fontSize: 1.5rem;
+}
+
+html {
+  font-size: 60%;
+}
+body {
+  background-color: var(--bg-color);
+}
+.btn {
+  padding: 15px 20px;
+  border-radius: var(--b-radius);
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.app {
+  max-width: 100%;
+  width: 1200px;
+  margin: 0 auto;
+
+}
