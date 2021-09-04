@@ -9,19 +9,19 @@ function Header({ text }) {
 
   function handleClick() {
     setOpen(!open);
-    console.log(open);
   }
   function handleCloseMenu() {
     setOpen(!open);
-    console.log(open);
   }
 
   return (
     <div className="header">
       <nav>
         <div className="nav__center">
-          <Link to='/'><h1 className="nav__title">poller</h1></Link>
-          
+          <Link to="/">
+            <h1 className="nav__title">poller</h1>
+          </Link>
+
           <div className="container" onClick={handleClick}>
             {open ? (
               <i class="fas fa-times    nav__times"></i>
@@ -44,12 +44,8 @@ function Header({ text }) {
             </li>
           </ul>
           <Link to={text == "signup" ? "signup" : "/"} className="btn nav__btn">
-       
             {text}
-         
-            
           </Link>
-       
         </div>
       </nav>
     </div>

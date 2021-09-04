@@ -6,7 +6,7 @@ import "./home.css";
 function Home() {
   return (
     <div>
-      <Header text='signup'/>
+      <Header text="signup" />
       <main>
         <div className="main__header">
           <div className="main__title">login into your account</div>
