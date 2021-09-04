@@ -48,7 +48,7 @@ function SignUp() {
               value={lastName}
             />
           </div>
-          <h1>{value.user.name}</h1>
+         
           <input
             type="email"
             className="input"
