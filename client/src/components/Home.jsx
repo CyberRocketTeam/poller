@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter, Route, Link, NavLink } from "react-router-dom";
 import Header from "./Header";
 
 import "./home.css";

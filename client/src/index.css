@@ -1,6 +1,7 @@
 body {
   margin: 0;
   font-family:DigifaceWide;
+  color: var(--color-primary);
 }
 
 code {

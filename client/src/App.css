@@ -24,7 +24,7 @@
 }
 
 html {
-  font-size: 60%;
+  font-size: 61.5%;
 }
 body {
   background-color: var(--bg-color);
@@ -40,5 +40,4 @@ body {
   max-width: 100%;
   width: 1200px;
   margin: 0 auto;
-
 }

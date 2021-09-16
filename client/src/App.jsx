@@ -1,27 +1,24 @@
 import React, { useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
-import Feed from "./Feed";
-import Home from "./Home";
-import SignUp from "./SignUp";
+import Feed from "./components/Feed";
 
-import { Consumer } from "./context";
+import { Consumer } from "./components/context";
+import Login from "./components/Login";
 
 function App() {
+  const [user, setUser]= useState(true)
   return (
-    <BrowserRouter>
-      <div className="app">
-        <Switch>
-          <Route path="/signup" component={SignUp} />
+   <div className='App'>
+      {!user ? (
 
-          <Route path="/feed">
-            <Feed />
-          </Route>
-
-          <Route path="/" component={Home} exact />
-        </Switch>
-      </div>
-    </BrowserRouter>
+        <Login />
+        
+      ) :
+        <Feed/>
+        
+   }
+    </div>
   );
 }
 
