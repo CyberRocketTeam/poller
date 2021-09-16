@@ -7,7 +7,7 @@ import { Consumer } from "./components/context";
 import Login from "./components/Login";
 
 function App() {
-  const [user, setUser]= useState(false)
+  const [user, setUser]= useState(true)
   return (
    <div className='App'>
       {!user ? (
