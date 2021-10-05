@@ -13,5 +13,10 @@ module.exports = {
       storage: './poller.sqlite3'
     }
   },
-  port: process.env.PORT || 8080
+  port: process.env.PORT || 8080,
+	message: {
+		success: {
+			POLL_CREATED: "poll created"
+		}
+	}
 }
