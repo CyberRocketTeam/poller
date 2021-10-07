@@ -5,7 +5,10 @@ const config = require('../config/config')
 function generateUserToken (user) {
   const expiryDate = 60 * 60 * 24 * 7 // one week
   return jwt.sign({
-    username: user.USERNAME
+    user: {
+      id: user.ID,
+      username: user.USERNAME
+    }
   }, config.authentication.jwtSecret, {
     expiresIn: expiryDate
   })
@@ -14,7 +17,11 @@ function generateUserToken (user) {
 module.exports = {
   async register (req, res) {
     try {
-      await User.create(req.body)
+      await User.create({
+        USERNAME: req.body.username,
+        PASSWORD: req.body.password,
+        EMAIL: req.body.email
+      })
       res.send({
         message: 'account created!'
       })
@@ -27,6 +34,7 @@ module.exports = {
   async login (req, res) {
     try {
       const { usernameEmail, password } = req.body
+
       let user = await User.findOne({
         where: {
           EMAIL: usernameEmail
@@ -42,13 +50,14 @@ module.exports = {
       }
 
       if (!user) {
-        return res.status(404).send({
+        return res.status(400).send({
           error: 'username/email or password is incorrect'
         })
       }
 
-      if (!await user.comparePassword(password)) {
-        return res.status(404).send({
+      const isValid = await user.comparePassword(password)
+      if (!isValid) {
+        return res.status(400).send({
           error: 'username/email or password is incorrect'
         })
       }
@@ -58,6 +67,7 @@ module.exports = {
         token: generateUserToken(user)
       })
     } catch (err) {
+      console.log(err)
       res.status(500).send({
         error: 'an error occurred while trying to login'
       })
