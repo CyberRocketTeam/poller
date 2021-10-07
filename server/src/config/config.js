@@ -15,6 +15,17 @@ module.exports = {
   },
   port: process.env.PORT || 8080,
 	message: {
+		error: {
+			INVALID_PAYLOAD: "invalid payload!",
+			ID_UNSPECIFIED: "the 'id' field was unspecified",
+			QUESTION_UNSPECIFIED: "the 'question' field was unspecified",
+			OPTIONS_UNSPECIFIED: "the 'options' field was unspecified",
+			POLL_DELETED: "poll deleted!"
+		},
+		status_code: {
+			"400": "poll not found",
+			"500": "internal server error"
+		},
 		success: {
 			POLL_CREATED: "poll created"
 		}
