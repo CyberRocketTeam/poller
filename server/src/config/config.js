@@ -6,7 +6,7 @@ module.exports = {
     database: process.env.DB_NAME || 'poller',
     user: process.env.DB_USER || 'poller',
     password: process.env.DB_PASS || 'GleNiaweJujAacpBLpwuK4D8N',
-    connection_uri : "mongodb+srv://PollerAdmin:5QgIpdNxAbOPCCAT@poller.ijegt.mongodb.net/poller?retryWrites=true&w=majority",
+    connection_uri: 'mongodb+srv://PollerAdmin:5QgIpdNxAbOPCCAT@poller.ijegt.mongodb.net/poller?retryWrites=true&w=majority',
     options: {
       dialect: process.env.DIALECT || 'sqlite',
       host: process.env.HOST || 'localhost',
@@ -14,20 +14,23 @@ module.exports = {
     }
   },
   port: process.env.PORT || 8080,
-	message: {
-		error: {
-			INVALID_PAYLOAD: "invalid payload!",
-			ID_UNSPECIFIED: "the 'id' field was unspecified",
-			QUESTION_UNSPECIFIED: "the 'question' field was unspecified",
-			OPTIONS_UNSPECIFIED: "the 'options' field was unspecified",
-			POLL_DELETED: "poll deleted!"
-		},
-		status_code: {
-			"400": "poll not found",
-			"500": "internal server error"
-		},
-		success: {
-			POLL_CREATED: "poll created"
-		}
-	}
+  message: {
+    error: {
+      INVALID_PAYLOAD: 'invalid payload!',
+      ID_UNSPECIFIED: "the 'id' field was unspecified",
+      LABEL_UNSPECIFIED: "the 'label' of an opton was unspecified",
+      VALUE_UNSPECIFIED: "the 'value' of an option was unspecified",
+      INVALID_OPTION_TYPE: 'the option type supplied is invalid',
+      QUESTION_UNSPECIFIED: "the 'question' field was unspecified",
+      OPTIONS_UNSPECIFIED: "the 'options' field was unspecified",
+      POLL_DELETED: 'poll deleted!'
+    },
+    status_code: {
+      400: 'poll not found',
+      500: 'internal server error'
+    },
+    success: {
+      POLL_CREATED: 'poll created'
+    }
+  }
 }

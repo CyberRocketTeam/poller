@@ -1,7 +1,14 @@
-let mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
-module.exports = mongoose.model("Poll", new mongoose.Schema({
-	question: String,
-	options: Array
-}))
+let schema = new mongoose.Schema({
+  question: {
+		type: String,
+		required: true
+	},
+  options: {
+		type: Array,
+		required: true
+	}
+})
 
+module.exports = mongoose.model('Poll', schema)

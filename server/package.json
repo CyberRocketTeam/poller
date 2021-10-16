@@ -4,8 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "test": "node_modules/.bin/mocha -u bdd --timeout 10000 tests"
+    "lint": "node_modules/.bin/eslint --fix app.js src/**/*.js tests/**/*.js",
+    "start": "nodemon main.js",
+    "test": "node_modules/.bin/mocha -u bdd --exit --timeout 10000 tests"
   },
   "keywords": [],
   "author": "",
@@ -23,14 +24,12 @@
     "mongoose": "^5.13.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.12",
-    "sequelize": "^6.6.4",
-    "sqlite3": "^5.0.2",
     "validator": "^10.11.0"
   },
   "devDependencies": {
-    "eslint": "^7.29.0",
+    "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0"
   }
