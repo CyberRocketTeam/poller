@@ -3,13 +3,10 @@ const Poll = require('../models/poll')
 const PollAnswer = require('../models/pollAnswer')
 
 module.exports = {
-  create (poll, req, res, next) {
-		console.log("Poll:\n\n\n")
-		console.log(JSON.stringify(poll))
-    new Poll(poll)
+  create (req, res) {
+    new Poll(res.locals.poll)
       .save()
       .then(doc => {
-				console.log(doc)
         res.status(201).send({ message: config.message.success.POLL_CREATED })
       })
       .catch(err => {
@@ -17,9 +14,9 @@ module.exports = {
         res.status(500).send({ message: config.message.status_code['500'] })
       })
   },
-  retrieve (poll_id, req, res, next) {
+  retrieve (req, res, next) {
     Poll.find({
-      id: poll_id
+      id: req.params.poll_id
     })
       .limit(1)
       .exec()
@@ -39,20 +36,20 @@ module.exports = {
         res.status(500).send({ message: config.message.status_code['500'] })
       })
   },
-  update (poll, req, res, next) {
+  update (req, res) {
     Poll.findOneAndUpdate({
       _id: req.params.poll_id
     },
-    poll)
+    res.locals.poll)
       .then(docs => res.status(200).send(docs))
       .catch(err => {
         console.log(err)
         res.status(500).send({ message: config.message.status_code['500'] })
       })
   },
-  remove (poll_id, req, res, next) {
+  remove (req, res, next) {
     Poll.findOneAndRemove({
-      _id: poll_id
+      _id: req.params.poll_id
     })
       .then(docs => res.status(200).send({ message: config.message.success.POLL_DELETED }))
       .catch(err => {

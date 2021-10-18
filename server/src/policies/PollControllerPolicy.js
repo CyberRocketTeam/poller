@@ -1,3 +1,4 @@
+const config = require('../config/config')
 const Joi = require('joi')
 
 module.exports = {
@@ -37,20 +38,18 @@ module.exports = {
           })
       }
     } else {
-			let poll = {
+			res.locals.poll = {
         creator: '',
         question: req.body.question,
         options: req.body.options
       }
 
-			console.log(poll)
-			console.log("\n\n\n\n\\nn\\n\n\n\n\n\n\n\n\n\n\n")
-      next(poll)
+      next()
     }
   },
   retrieve (req, res, next) {
     if (req.params.poll_id) {
-      next(req.params.poll_id)
+      next()
     } else {
       res.status(400).send({ message: config.message.error.INVALID_PAYLOAD })
     }
@@ -64,7 +63,7 @@ module.exports = {
   },
   remove (req, res, next) {
     if (req.params.poll_id) {
-      next(req.params.poll_id)
+      next()
     } else {
       res.status(400).send({ message: config.message.error.INVALID_PAYLOAD })
     }

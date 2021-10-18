@@ -16,19 +16,23 @@ module.exports = (app) => {
           options: [
             {
               type: 'radio',
-              text: 'Yes'
+              label: 'Yes',
+							value: 'yes'
             },
             {
               type: 'radio',
-              text: 'No'
+              label: 'No',
+							value: 'no'
             },
             {
               type: 'radio',
-              text: 'It depends on the crime committed'
+              label: 'It depends on the crime committed',
+							value: 'depends'
             },
             {
               type: 'radio',
-              text: 'Maybe'
+              label: 'Maybe',
+							value: 'maybe'
             }
           ]
         })
