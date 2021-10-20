@@ -1,71 +1,106 @@
 const config = require('../config/config')
 const Joi = require('joi')
+const Poll = require('../models/poll')
+
+const schema = Joi.object({
+  question: Joi.string().required(),
+  options: Joi.array().required().items(Joi.object().keys({
+    type: Joi.string().required(),
+    label: Joi.string().required(),
+    value: Joi.string().required(),
+    group: Joi.string()
+  }).custom((obj, helper) => {
+    switch (obj.type) {
+      case 'radio':
+        if (!obj.group) {
+          throw new Error(config.message.error.GROUP_UNSPECIFIED)
+        }
+        break
+      default:
+        throw new Error(config.message.error.INVALID_OPTION_TYPE)
+    }
+
+    return obj
+  }))
+})
 
 module.exports = {
+  schema: schema,
   create (req, res, next) {
-    const schema = Joi.object({
-      question: Joi.string().required(),
-      options: Joi.array().required().items(Joi.object().custom((obj, helper) => {
-        switch (obj.type) {
-          case 'radio':
-            if (obj.label.length == 0) { return helper.message(config.message.error.LABEL_UNSPECIFIED) }
-            if (obj.value.length == 0) { return helper.message(config.message.error.VALUE_UNSPECIFIED) }
-            return true
-            break
-          default:
-            return helper.message(config.message.error.INVALID_OPTION_TYPE)
-        }
-      }))
-    })
-
     const { error } = schema.validate(req.body)
 
     if (error) {
-      switch (error.details[0].context.key) {
-        case 'question':
-          res.status(400).send({
-            error: config.message.error.QUESTION_UNSPECIFIED
-          })
-          break
-        case 'options':
-          res.status(400).send({
-            error: config.message.error.OPTIONS_UNSPECIFIED
-          })
-          break
-        default:
-          res.status(400).send({
-            error: config.message.error.INVALID_PAYLOAD
-          })
-      }
-    } else {
-			res.locals.poll = {
-        creator: '',
-        question: req.body.question,
-        options: req.body.options
-      }
-
-      next()
+      return res.status(400)
+        .send({
+          error: error
+        })
     }
+
+    res.locals.poll = {
+      creator: '',
+      question: req.body.question,
+      options: req.body.options
+    }
+
+    return next()
   },
   retrieve (req, res, next) {
     if (req.params.poll_id) {
-      next()
+      Poll.find({
+        _id: req.params.poll_id
+      })
+        .limit(1)
+        .exec()
+        .then(docs => {
+          if (docs.length > 0) {
+            res.locals.poll = docs[0]
+            return next()
+          }
+
+          res.status(404)
+            .send({ error: config.message.status_code['404'] })
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(500).send({ error: config.message.status_code['500'] })
+        })
     } else {
-      res.status(400).send({ message: config.message.error.INVALID_PAYLOAD })
+      return res.status(400).send({ error: config.message.error.INVALID_PAYLOAD })
     }
   },
   update (req, res, next) {
     if (req.params.poll_id) {
-      this.create(req, res, next)
-    } else {
-      res.status(400).send({ message: config.message.error.INVALID_PAYLOAD })
+      const { error } = schema.validate(req.body)
+
+      if (error) {
+        return res.status(400)
+          .send({
+            error: error
+          })
+      }
+
+      res.locals.poll = {
+        creator: 'testUser',
+        question: req.body.question,
+        options: req.body.options
+      }
+
+      return next()
     }
+
+    return res.status(400)
+      .send({
+        error: config.message.error.INVALID_PAYLOAD
+      })
   },
   remove (req, res, next) {
     if (req.params.poll_id) {
-      next()
-    } else {
-      res.status(400).send({ message: config.message.error.INVALID_PAYLOAD })
+      return next()
     }
+
+    return res.status(400)
+      .send({
+        error: config.message.error.INVALID_PAYLOAD
+      })
   }
 }

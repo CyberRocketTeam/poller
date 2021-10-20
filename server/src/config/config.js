@@ -19,6 +19,7 @@ module.exports = {
       INVALID_PAYLOAD: 'invalid payload!',
       ID_UNSPECIFIED: "the 'id' field was unspecified",
       LABEL_UNSPECIFIED: "the 'label' of an opton was unspecified",
+      GROUP_UNSPECIFIED: "the 'group' of an opton was unspecified",
       VALUE_UNSPECIFIED: "the 'value' of an option was unspecified",
       INVALID_OPTION_TYPE: 'the option type supplied is invalid',
       QUESTION_UNSPECIFIED: "the 'question' field was unspecified",
@@ -30,7 +31,9 @@ module.exports = {
       500: 'internal server error'
     },
     success: {
-      POLL_CREATED: 'poll created'
+      POLL_CREATED: 'poll created',
+      POLL_UPDATED: 'poll updated',
+      VOTE_CASTED: 'vote casted'
     }
   }
 }

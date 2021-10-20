@@ -16,23 +16,27 @@ module.exports = (app) => {
           options: [
             {
               type: 'radio',
+              group: '0',
               label: 'Yes',
-							value: 'yes'
+              value: 'yes'
             },
             {
               type: 'radio',
+              group: '0',
               label: 'No',
-							value: 'no'
+              value: 'no'
             },
             {
               type: 'radio',
+              group: '0',
               label: 'It depends on the crime committed',
-							value: 'depends'
+              value: 'depends'
             },
             {
               type: 'radio',
+              group: '0',
               label: 'Maybe',
-							value: 'maybe'
+              value: 'maybe'
             }
           ]
         })
@@ -41,8 +45,8 @@ module.exports = (app) => {
             console.log(err)
             done()
           } else {
-            chai.assert.equal(res.status, 201)
-            chai.assert.equal(res.body.message, config.message.success.POLL_CREATED)
+            chai.assert.strictEqual(res.status, 201)
+            chai.assert.strictEqual(res.body.message, config.message.success.POLL_CREATED)
             done()
           }
         })
@@ -57,8 +61,7 @@ module.exports = (app) => {
             done()
           } else {
             chai.assert.typeOf(res.body, 'Array')
-						chai.assert.notEqual(res.body.length, 0)
-						console.log(res.body)
+            chai.assert.notStrictEqual(res.body.length, 0)
             chai.request(global.server)
               .get('/poll/' + res.body[0]._id)
               .end((err, res) => {
@@ -83,17 +86,44 @@ module.exports = (app) => {
             done()
           } else {
             chai.assert.typeOf(res.body, 'Array')
-            console.log(res.body)
             chai.request(global.server)
               .put('/poll/' + res.body[0]._id)
-              .send({ question: "What is today's date?" })
+              .send({
+                question: 'How can I display the date in UTC format in JavaScript?',
+                options: [
+                  {
+                    type: 'radio',
+                    label: 'new Date()',
+                    value: 'a',
+                    group: '0'
+                  },
+                  {
+                    type: 'radio',
+                    label: 'new Date().toUTCString()',
+                    value: 'b',
+                    group: '0'
+                  },
+                  {
+                    type: 'radio',
+                    label: 'console.log(new Date.toUTCString())',
+                    value: 'c',
+                    group: '0'
+                  },
+                  {
+                    type: 'radio',
+                    label: 'console.log(new Date().toUTCString())',
+                    value: 'd',
+                    group: '0'
+                  }
+                ]
+              })
               .end((err, res) => {
                 if (err) {
                   console.log(err)
                   done()
                 } else {
-                  chai.assert.equal(res.status, 200)
-                  console.log(res.body)
+                  chai.assert.strictEqual(res.status, 200)
+                  chai.assert.strictEqual(res.body.message, config.message.success.POLL_UPDATED)
                   done()
                 }
               })
@@ -101,8 +131,33 @@ module.exports = (app) => {
         })
     })
 
+    it('should vote in a poll', function (done) {
+      chai.request(global.server)
+        .get('/poll')
+        .end((err, res) => {
+          if (err) {
+            console.log(err)
+          } else {
+            chai.assert.typeOf(res.body, 'Array')
+            chai.assert.notStrictEqual(res.body.length, 0)
+            chai.request(global.server)
+              .post('/poll/' + res.body[0]._id)
+              .send([
+                {
+                  id: '1',
+                  value: 'd'
+                }
+              ])
+              .end((err, res) => {
+                chai.assert.strictEqual(res.body.message, config.message.success.VOTE_CASTED)
+                chai.assert.strictEqual(res.status, 201)
+                done()
+              })
+          }
+        })
+    })
+
     it('should delete polls', function (done) {
-      this.timeout(60000)
       chai.request(global.server)
         .get('/poll')
         .end((err, res) => {
@@ -118,9 +173,10 @@ module.exports = (app) => {
                 .delete('/poll/' + poll._id)
                 .end((err, r) => {
                   if (err) { console.log(err) } else {
-                    chai.assert.equal(r.status, 200)
+                    chai.assert.strictEqual(r.status, 200)
                     if (i == (res.body.length - 1)) {
                       done()
+                      console.log('all done')
                     }
                   }
                 })
